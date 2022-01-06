@@ -24,7 +24,12 @@ public class ElevensBoard extends Board {
     // returns true if **any** two of the given cards adds up to exactly 11
     // and false otherwise
     public boolean containsPairSum11(ArrayList<Integer> cardIndexes) {
-        // YOUR CODE HERE
+        for(int i = 0; i < cardIndexes.size() - 1; i++){
+            for(int j = 0; j < cardIndexes.size(); j++)
+                if(cardAt(cardIndexes.get(i)).getPointValue() + cardAt(cardIndexes.get(j)).getPointValue() == 11){
+                    return true;
+                }
+        }
         return false;
     }
 
@@ -32,7 +37,23 @@ public class ElevensBoard extends Board {
     // returns true if there is at least 1 Jack, at least 1 Queen, and at least 1 King
     // amongst the selected cards, and false otherwise
     public boolean containsJQK(ArrayList<Integer> cardIndexes) {
-        // YOUR CODE HERE
+        int jcounter = 0;
+        int qcounter = 0;
+        int kcounter = 0;
+        for(int i = 0; i < cardIndexes.size(); i++){
+            if(cardAt(cardIndexes.get(i)).getRank().equals("queen")){
+                qcounter++;
+            }
+            if(cardAt(cardIndexes.get(i)).getRank().equals("jack")){
+                jcounter++;
+            }
+            if(cardAt(cardIndexes.get(i)).getRank().equals("king")){
+                kcounter++;
+            }
+        }
+        if(kcounter > 0 && qcounter > 0 && jcounter > 0){
+            return true;
+        }
         return false;
     }
 
@@ -47,6 +68,9 @@ public class ElevensBoard extends Board {
 
         // YOUR CODE HERE
         // Just 1-2 lines of code needed
+        if(containsPairSum11(allCards) || containsJQK(allCards)){
+            return true;
+        }
         return false;
     }
 
@@ -55,7 +79,12 @@ public class ElevensBoard extends Board {
     // (2) a group of three cards consisting of a jack, a queen, and a king in some order
     @Override
     public boolean isLegal(ArrayList<Integer> selectedCards) {
-        // YOUR CODE HERE
+        if(selectedCards.size() == 2 && containsPairSum11(selectedCards)){
+            return true;
+        }
+        else if(selectedCards.size() == 3 && containsJQK(selectedCards)){
+            return true;
+        }
         return false;
     }
 }
